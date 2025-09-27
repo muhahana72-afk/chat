@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Ommaviy Chat</title>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        #messages {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        #messages li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        #messages li:last-child {
+            border-bottom: none;
+        }
+        input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .input-container {
+            display: flex;
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Ommaviy Chat Xonasi</h2>
+    <ul id="messages"></ul>
+    <div class="input-container">
+        <input id="myMessage" autocomplete="off" placeholder="Xabar yozing..." />
+        <button onclick="sendMessage()">Yuborish</button>
+    </div>
+
+    <script>
+        const socket = io();
+
+        socket.on('message', function(msg) {
+            const item = document.createElement('li');
+            item.textContent = msg;
+            document.getElementById('messages').appendChild(item);
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('myMessage');
+            socket.send(input.value);
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
