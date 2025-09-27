@@ -79,6 +79,14 @@
             document.getElementById('messages').appendChild(item);
         });
 
+        socket.on('history', function(messages) {
+            messages.forEach(function(msg) {
+                const item = document.createElement('li');
+                item.textContent = msg;
+                document.getElementById('messages').appendChild(item);
+            });
+        });
+
         function sendMessage() {
             const input = document.getElementById('myMessage');
             socket.send(input.value);
